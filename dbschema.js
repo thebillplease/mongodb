@@ -12,9 +12,9 @@
 }
 
 
-// Stored Content
-"_id"		: 	session, 
-"end"		:	ISODate("2014-03-21T12:18:12.648Z"),
+// Stored Content /v1/content
+"_id"		: 	session, // unique id for a sensor tracking a specific food
+"end"		:	ISODate("2014-03-21T12:18:12.648Z"), // last modified date
 "start"		:	ISODate("2014-03-21T12:16:39.047Z"), // enter date
 "fBy"		:	ISODate("2014-03-21T12:20:39.047Z"), // freshest by date. calculated on an hourly basis. 
 "cat"		:	1, 
@@ -25,7 +25,7 @@
 "tags"		: 	{catname, ricotta, lime}
 
 
-// Sensors
+// Sensors /v1/sensors/
 "_id"	:	ObjectId("0349dasdf932rkasf"),
 "hubId"	:	hubId,	
 "senId"	:	senId,
@@ -35,7 +35,7 @@
 "last"	:	ISODate("2014-03-21T12:18:12.648Z")
 
 
-// Hubs
+// Hubs /v1/hubs/
 "_id"	: 	ObjectId("0349dasdf932rkasf"),
 "hubId"	:	1234, 
 "userId":	
@@ -46,6 +46,8 @@
 //Sensor schema. A single sensor will update every minute. Sensor object tracks 1hr into 60 1 min. chunks.  
 // based on this http://blog.mongodb.org/post/65517193370/schema-design-for-time-series-data-in-mongodb
 // https://www.mongodb.com/presentations/mongodb-time-series-data-part-1-setting-stage-sensor-management?_ga=1.96703583.1535413078.1434404051
+
+// /v1/publish/sensors/
 "_id"		: 	ObjectId("0349dasdf932rkasf"),
 "hubId"		: 123,
 "senId"		: 123,
@@ -96,7 +98,7 @@
 
 
 
-//person
+//person /v1/user/
 "_id"		: 	ObjectId("0349dasdf932rkasf"),
 "username"	: 'username',
 "name"	: 'first last',
