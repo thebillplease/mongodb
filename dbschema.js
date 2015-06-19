@@ -1,14 +1,14 @@
 // POST Values
 {
-"hubId" 		: 93230,
-"sensorId"		: 2,
-"temp"			: 4,
-"session"		: 5555,
-"category"		: 1,
-"vcc1"			: 98,
-"vcc2"			: 97,
-"seq"			: 45,
-"status"		: 1,
+"hubId" 		: 93230, //unique id from the transmitter. Unmutable.
+"sensorId"		: 2, 	// sensor id
+"temp"			: 4,	// temperature measurement
+"session"		: 5555,	// unique id that is created by sensor every time it powers on.
+"category"		: 1,	// category ids maps to strings
+"vcc1"			: 98,	// battery measurement before transmission 
+"vcc2"			: 97,	// battery measurement after transmission
+"seq"			: 45,	// sequence number from 0 - 9999
+"status"		: 1,	// 1 - on, 0 - off
 }
 
 
