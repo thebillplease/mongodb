@@ -1,19 +1,19 @@
 // POST Values Example
 {
-"hubId" 		: 93230, //unique id from the transmitter. Unmutable.
-"sensorId"		: 2, 	// sensor id
-"temp"			: 4,	// temperature measurement
-"tid"			: 5555,	// unique id for a sensor tracking a specific food. created by sensor every time it powers on.
-"category"		: 1,	// category ids maps to strings
+"hId" 			: 93230, //unique id from the transmitter. Unmutable.
+"sId"			: 2, 	// sensor id
+"tmp"			: 4,	// temperature measurement
+"cid"			: 5555,	// unique id for a sensor tracking a specific food. created by sensor every time it powers on.
+"cat"			: 1,	// category ids maps to strings
 "vcc1"			: 98,	// battery measurement before transmission 
 "vcc2"			: 97,	// battery measurement after transmission
 "seq"			: 45,	// sequence number from 0 - 9999
-"status"		: 1,	// 1 - on, 0 - off
+"s"				: 1,	// power status indicator 1 - on, 0 - off
 }
 
 
-// Stored Content 
-"_id"		: 	tid, // unique id for a sensor tracking a specific food
+// Stored Content. Aggregation of the sensor data around cid (contentId)
+"_id"		: 	cid, // unique id for a sensor tracking a specific food
 "end"		:	ISODate("2014-03-21T12:18:12.648Z"), // last modified date
 "start"		:	ISODate("2014-03-21T12:16:39.047Z"), // enter date
 "fBy"		:	ISODate("2014-03-21T12:20:39.047Z"), // freshest by date. calculated on an hourly basis. 
@@ -22,7 +22,7 @@
 "notes"		: 	"Remember to add salt", // user entered notes
 "avgT"		:	 7, // avg. temp from start till now. calculated on an hourly basis.
 "managed"   :   "system", // distinguish between user entered and system tracked
-"stat"		:	"1",
+"stat"		:	"1", // latest updated 's' number
 "reminder"	:	[
 	{
 	"user"	: 	ISODate("2014-03-21T12:16:39.047Z"), // user entered additional reminder
@@ -34,20 +34,22 @@
 
 // Sensors 
 "_id"	:	ObjectId("0349dasdf932rkasf"),
-"hubId"	:	hubId,	
-"senId"	:	senId,
-"uids"	:	{ tid, tid, tid, tid },
+"hId"	:	hubId,	
+"sId"	:	senId,
+"uids"	:	{ cid, cid, cid, cid },
 "stat"	:	"on",
 "bat"	:	97,
-"last"	:	ISODate("2014-03-21T12:18:12.648Z")
+"last"	:	ISODate("2014-03-21T12:18:12.648Z") // last seen date
 
 
 // Hubs 
 "_id"	: 	ObjectId("0349dasdf932rkasf"),
-"hubId"	:	1234, 
-"userId":	
-"vs"	:
-"last"	:	ISODate("2014-03-21T12:16:44.594Z")
+"hId"	:	1234, 
+"uId":	
+"vs"	:	1.2 // hub firmware version
+"last"	:	ISODate("2014-03-21T12:16:44.594Z") // last seen date
+"ip"	:	129.129.19.9 // ip address of transmitter
+"geo"	:	{lat, long} // lat long of where sensor was first setup
 
 
 //Sensor schema. A single sensor will update every minute. Sensor object tracks 1hr into 60 1 min. chunks.  
@@ -55,50 +57,50 @@
 // https://www.mongodb.com/presentations/mongodb-time-series-data-part-1-setting-stage-sensor-management?_ga=1.96703583.1535413078.1434404051
 
 "_id"		: 	ObjectId("0349dasdf932rkasf"),
-"hubId"		: 123,
-"senId"		: 123,
-"tid"	: 5555, // unique id generated every time sensor is turned on.
+"hId"		: 123,
+"sId"		: 123,
+"cid"	: 5555, // unique id generated every time sensor is turned on.
 "val"	: [
 	{
-            "timestamp" : ISODate("2014-03-21T12:16:44.594Z"),
+            "tstamp" : ISODate("2014-03-21T12:16:44.594Z"),
             "cat"	: 123,
-            "temp" : 5,
+            "tmp" : 5,
             "vcc1" : 98,
             "vcc2" : 97,
             "seq"  : 4,
-            "status" : 1
+            "s" : 1
         },
         {
-            "timestamp" : ISODate("2014-03-21T12:16:53.617Z"),
-            "temp" : 5,
+            "tstamp" : ISODate("2014-03-21T12:16:53.617Z"),
+            "tmp" : 5,
             "vcc1" : 98,
             "vcc2" : 97,
             "seq"  : 5,
-            "status" : 1
+            "s" : 1
         },
         {
-            "timestamp" : ISODate("2014-03-21T12:17:01.683Z"),
-            "temp" : 5,
+            "tstamp" : ISODate("2014-03-21T12:17:01.683Z"),
+            "tmp" : 5,
             "vcc1" : 98,
             "vcc2" : 97,
             "seq"  : 6,
-            "status" : 1
+            "s" : 1
         },
         {
-            "timestamp" : ISODate("2014-03-21T12:17:55.223Z"),
-            "temp" : 5,
+            "tstamp" : ISODate("2014-03-21T12:17:55.223Z"),
+            "tmp" : 5,
             "vcc1" : 98,
             "vcc2" : 97,
             "seq"  : 7,
-            "status" : 1
+            "s" : 1
         }, 
         {
-            "timestamp" : ISODate("2014-03-21T12:18:04.653Z"),
+            "tstamp" : ISODate("2014-03-21T12:18:04.653Z"),
             "temp" : 5,
             "vcc1" : 98,
             "vcc2" : 97,
             "seq"  : 8,
-            "status" : 1
+            "s" : 1
         }
 ]
 
@@ -107,13 +109,14 @@
 //person 
 "_id"		: 	ObjectId("0349dasdf932rkasf"),
 "username"	: 'username',
-"name"	: 'first last',
+"name"		: 'first last',
 "password"	: 'password',
 "devices"	: [
 	{ "hub": id },
-	{ "sensor": { id, id, id } }
+	{ "sensors": { id, id, id } }
 ],
 "geo": {lat, long},
+"apiKey"	:	1234, // token used to make api calls
 "dateRegistered": date
 
 //recommendations
